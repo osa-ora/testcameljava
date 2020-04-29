@@ -31,14 +31,15 @@ public class Launcher {
         //This is for DB datasource binding
         // bind dataSource into the registery
         //main.bind("myDataSource", setupDataSource("test","root","passw0rd"));
-        main.bind("myDataSource", setupDataSource("sampledb","root","passw0rd"));
-        
-        
-        //main.addRouteBuilder(new CamelRoute());
         //main.addRouteBuilder(new CamelDBRoute());
-        //main.addRouteBuilder(new CamelRestRoute());
+
+        main.bind("myDataSource2", setupDataSource("sampledb","root","passw0rd"));
         main.addRouteBuilder(new CamelRestDBRoute());
+               
+        //main.addRouteBuilder(new CamelRoute());
+        //main.addRouteBuilder(new CamelRestRoute());
         main.run(args);
+        //AMQ configurations moved to inside the route 
         /*CamelContext ctx = new DefaultCamelContext();
       	configure jms component        
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(setupAMQSource());
@@ -58,16 +59,19 @@ public class Launcher {
 
 	static DataSource setupDataSource(String schema, String user, String password) {
 		MysqlDataSource ds = new MysqlDataSource();
-		// ds.setUrl("jdbc:mysql://localhost:3306/test");
+		//jdbc:mysql://localhost:3306/test
 		ds.setURL("jdbc:mysql://" + Optional.ofNullable(System.getenv("DB_SERVER")).orElse("mysqlservice") + ":"
 				+ Optional.ofNullable(System.getenv("DB_PORT")).orElse("3306") + "/" + schema);
 		ds.setUser(user);
 		ds.setPassword(password);
+		System.out.println("Will connect to DB: "+ds.getURL());
 		return ds;
 	}
 	public static String setupAMQSource() {
 		//tcp://localhost:61616
-		return "tcp://" + Optional.ofNullable(System.getenv("AMQ_SERVER")).orElse("amqservice") + ":"
+		String url= "tcp://" + Optional.ofNullable(System.getenv("AMQ_SERVER")).orElse("amqservice") + ":"
 				+ Optional.ofNullable(System.getenv("AMQ_PORT")).orElse("61616");
+		System.out.println("Will connect to AMQ: "+url);
+		return url;
 	}
 }

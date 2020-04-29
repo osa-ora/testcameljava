@@ -7,6 +7,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 
+import osa.ora.camel.Launcher;
+
 public class CamelRoute extends RouteBuilder {
 
 	@Override
@@ -22,7 +24,7 @@ public class CamelRoute extends RouteBuilder {
 		//7. Create file and append to it
 		
         //if(getContext().getComponent("jms")==null) {
-    		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+    		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(Launcher.setupAMQSource());
     		getContext().addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
 		//}
         System.out.println("Before start ...");

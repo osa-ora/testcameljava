@@ -8,13 +8,15 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.model.rest.RestBindingMode;
 
+import osa.ora.camel.Launcher;
+
 public class CamelRestRoute extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
 
-        //if(getContext().getComponent("jms")==null) {
-    		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        //if(getContext().getComponent("activemq")==null) {
+    		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(Launcher.setupAMQSource());
     		getContext().addComponent("activemq", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
 		//}	
 		System.out.println("Before start ...");

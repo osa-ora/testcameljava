@@ -18,7 +18,7 @@ public class CamelRestDBRoute extends RouteBuilder {
 		//1. bind rest end point to localhost on specific port
 		//2. expose end point /countries/{country} & /load/{country}
 		//3. Call REST service using ?bridgeEndpoint=true to propagate the /countries/{country} path
-		//4. Handle errors and return user fiendly message
+		//4. Handle errors and return user friendly error message
 		//5. Convert the response from JSON to Object
 		//6. Save the response from the object into DB
 		//7. Load last enty from the DB when using /load/{country}
@@ -62,8 +62,8 @@ public class CamelRestDBRoute extends RouteBuilder {
 		.setBody(simple("INSERT INTO corona (country, cases, deaths,data_time) "
 				+ "VALUES ('${header.country}',${header.cases},${header.deaths},"
 				+ "CURRENT_TIMESTAMP())"))
-		.log(body().toString()+"?level=debug")
-        .to("jdbc:myDataSource").
+		.log(body().toString())
+        .to("jdbc:myDataSource2").
         setBody(simple("${header.data}"));
         //.to("jdbc:myDataSource?outputClass=osa.ora.camel.beans.Account")
         //.to("activemq:queue:test");
@@ -72,7 +72,7 @@ public class CamelRestDBRoute extends RouteBuilder {
 		.setBody(simple("select country ,cases ,deaths from corona "
 				+ "where country='${header.country}' ORDER BY id DESC LIMIT 1"))
         //.to("jdbc:myDataSource")
-        .to("jdbc:myDataSource?outputClass=osa.ora.camel.beans.Corona")
+        .to("jdbc:myDataSource2?outputClass=osa.ora.camel.beans.Corona")
         //.log("Receiving response ${body}")
         //.process(new RowProcessor())
         .log("Receiving response ${body}");				
