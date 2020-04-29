@@ -6,6 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 
+import osa.ora.camel.Launcher;
 import osa.ora.camel.beans.Corona;
 
 public class CamelRestDBRoute extends RouteBuilder {
@@ -22,7 +23,7 @@ public class CamelRestDBRoute extends RouteBuilder {
 		//5. Convert the response from JSON to Object
 		//6. Save the response from the object into DB
 		//7. Load last enty from the DB when using /load/{country}
-		restConfiguration().component("jetty").host("localhost").port(8080).bindingMode(RestBindingMode.auto);
+		restConfiguration().component("jetty").host("localhost").port(Launcher.getListenPort()).bindingMode(RestBindingMode.auto);
 		//rest("/countries/").get().consumes(MediaType.APPLICATION_JSON).produces(MediaType.APPLICATION_JSON)
 	     //   .to("direct:newCall");	
 		from("rest:get:/countries/{country}")

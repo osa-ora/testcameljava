@@ -74,4 +74,10 @@ public class Launcher {
 		System.out.println("Will connect to AMQ: "+url);
 		return url;
 	}
+
+	public static int getListenPort() {
+		String port= Optional.ofNullable(System.getenv("PORT")).orElse("8081");
+		System.out.println("Will use listen port: "+port);
+		return Integer.parseInt(port);
+	}
 }

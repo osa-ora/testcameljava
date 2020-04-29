@@ -31,7 +31,7 @@ public class CamelRestRoute extends RouteBuilder {
 		//7. Submit messages to message queue
 		//8. Listen and consume messages from message queue
 		//9. Create file and append to it
-		restConfiguration().component("jetty").host("localhost").port(8080).bindingMode(RestBindingMode.json);
+		restConfiguration().component("jetty").host("localhost").port(Launcher.getListenPort()).bindingMode(RestBindingMode.json);
 		//rest("/countries/").get().consumes(MediaType.APPLICATION_JSON).produces(MediaType.APPLICATION_JSON)
 	     //   .to("direct:newCall");	
 		from("rest:get:/countries/{country}")
